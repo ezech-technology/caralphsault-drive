@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAMEHUB — Play. Download. Discover.</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#0b0d12;
+    color:#fff;
+}
+
+/* HEADER */
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    height:70px;
+    background:#11141b;
+    border-bottom:1px solid #252a35;
+    display:flex;
+    align-items:center;
+    padding:0 5%;
+    gap:35px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    color:#00e5ff;
+    white-space:nowrap;
+}
+
+.logo span{
+    color:#fff;
+}
+
+nav{
+    display:flex;
+    gap:25px;
+}
+
+nav a{
+    color:#bbb;
+    text-decoration:none;
+    font-size:15px;
+    cursor:pointer;
+}
+
+nav a:hover,
+nav a.active{
+    color:#00e5ff;
+}
+
+.search{
+    margin-left:auto;
+    position:relative;
+}
+
+.search input{
+    width:240px;
+    padding:11px 15px;
+    border:none;
+    outline:none;
+    border-radius:8px;
+    background:#1b1f28;
+    color:#fff;
+}
+
+.profile{
+    background:#1b1f28;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+}
+
+/* HERO */
+.hero{
+    min-height:430px;
+    padding:80px 7%;
+    display:flex;
+    align-items:center;
+    background:
+    linear-gradient(90deg,#0b0d12 20%,rgba(11,13,18,.75),rgba(11,13,18,.2)),
+    url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=80");
+    background-size:cover;
+    background-position:center;
+}
+
+.hero-content{
+    max-width:550px;
+}
+
+.hero small{
+    color:#00e5ff;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.hero h1{
+    font-size:52px;
+    margin:15px 0;
+}
+
+.hero p{
+    color:#c2c2c2;
+    line-height:1.7;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
+}
+
+.btn{
+    border:none;
+    padding:13px 22px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.primary{
+    background:#00e5ff;
+    color:#000;
+}
+
+.secondary{
+    background:#252a35;
+    color:#fff;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* MAIN */
+main{
+    padding:40px 5%;
+}
+
+.section{
+    margin-bottom:50px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.section-title h2{
+    font-size:25px;
+}
+
+.section-title a{
+    color:#00e5ff;
+    cursor:pointer;
+    font-size:14px;
+}
+
+/* CATEGORIES */
+.categories{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    padding-bottom:10px;
+}
+
+.category{
+    background:#171a22;
+    border:1px solid #282d38;
+    padding:12px 22px;
+    border-radius:30px;
+    white-space:nowrap;
+    cursor:pointer;
+}
+
+.category:hover,
+.category.selected{
+    background:#00e5ff;
+    color:#000;
+}
+
+/* GAME GRID */
+.games{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+    gap:22px;
+}
+
+.game-card{
+    background:#151820;
+    border:1px solid #252a35;
+    border-radius:12px;
+    overflow:hidden;
+    transition:.25s;
+}
+
+.game-card:hover{
+    transform:translateY(-6px);
+    border-color:#00e5ff;
+}
+
+.game-image{
+    height:145px;
+    overflow:hidden;
+}
+
+.game-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.3s;
+}
+
+.game-card:hover img{
+    transform:scale(1.08);
+}
+
+.game-info{
+    padding:15px;
+}
+
+.game-info h3{
+    font-size:17px;
+    margin-bottom:8px;
+}
+
+.game-info p{
+    color:#999;
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.game-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.rating{
+    color:#ffd43b;
+}
+
+.play-btn{
+    border:none;
+    background:#00e5ff;
+    color:#000;
+    padding:8px 13px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* EMPTY SEARCH */
+.no-results{
+    display:none;
+    text-align:center;
+    padding:50px;
+    color:#aaa;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    z-index:2000;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:700px;
+    background:#151820;
+    border:1px solid #303643;
+    border-radius:15px;
+    overflow:hidden;
+    position:relative;
+}
+
+.modal-image{
+    height:250px;
+}
+
+.modal-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.modal-content{
+    padding:25px;
+}
+
+.close{
+    position:absolute;
+    right:15px;
+    top:15px;
+    background:#111;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.modal-content h2{
+    margin-bottom:10px;
+}
+
+.modal-content p{
+    color:#aaa;
+    line-height:1.6;
+}
+
+.modal-actions{
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+}
+
+/* FOOTER */
+footer{
+    background:#11141b;
+    border-top:1px solid #252a35;
+    padding:35px 5%;
+    text-align:center;
+    color:#777;
+}
+
+footer strong{
+    color:#00e5ff;
+}
+
+/* RESPONSIVE */
+@media(max-width:800px){
+
+    header{
+        gap:15px;
+        padding:0 3%;
+    }
+
+    nav{
+        display:none;
+    }
+
+    .search input{
+        width:150px;
+    }
+
+    .hero{
+        min-height:420px;
+        padding:60px 5%;
+    }
+
+    .hero h1{
+        font-size:38px;
+    }
+}
+
+@media(max-width:500px){
+
+    .search{
+        display:none;
+    }
+
+    .hero h1{
+        font-size:32px;
+    }
+
+    main{
+        padding:30px 4%;
+    }
+
+    .games{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+
+    .game-image{
+        height:110px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+
+    <div class="logo">
+        GAME<span>HUB</span>
+    </div>
+
+    <nav>
+        <a class="active" onclick="goHome()">Home</a>
+        <a>Games</a>
+        <a>Categories</a>
+        <a>My Library</a>
+    </nav>
+
+    <div class="search">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search games..."
+            onkeyup="searchGames()"
+        >
+    </div>
+
+    <div class="profile">👤</div>
+
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <small>FEATURED GAME</small>
+
+        <h1>Enter The Game World</h1>
+
+        <p>
+            Discover exciting games, play instantly,
+            download your favorites and build your own
+            personal game library.
+        </p>
+
+        <div class="hero-buttons">
+            <button class="btn primary" onclick="openGame('Cyber Strike')">
+                ▶ Play Now
+            </button>
+
+            <button class="btn secondary" onclick="scrollToGames()">
+                Explore Games
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+
+<main>
+
+<!-- CATEGORIES -->
+<section class="section">
+
+    <div class="section-title">
+        <h2>Categories</h2>
+    </div>
+
+    <div class="categories">
+
+        <div class="category selected" onclick="filterCategory('all',this)">
+            All Games
+        </div>
+
+        <div class="category" onclick="filterCategory('action',this)">
+            ⚔️ Action
+        </div>
+
+        <div class="category" onclick="filterCategory('racing',this)">
+            🏎️ Racing
+        </div>
+
+        <div class="category" onclick="filterCategory('sports',this)">
+            ⚽ Sports
+        </div>
+
+        <div class="category" onclick="filterCategory('strategy',this)">
+            ♟️ Strategy
+        </div>
+
+        <div class="category" onclick="filterCategory('arcade',this)">
+            🕹️ Arcade
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURED -->
+<section class="section">
+
+    <div class="section-title">
+        <h2>🔥 Featured Games</h2>
+        <a>View All</a>
+    </div>
+
+    <div class="games" id="gameGrid">
+
+        <!-- GAME 1 -->
+        <div class="game-card" data-category="action" data-name="Cyber Strike">
+
+            <div class="game-image">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80">
+            </div>
+
+            <div class="game-info">
+
+                <h3>Cyber Strike</h3>
+
+                <p>Action • 450 MB</p>
+
+                <div class="game-bottom">
+
+                    <span class="rating">★ 4.8</span>
+
+                    <button class="play-btn"
+                    onclick="openGame('Cyber Strike')">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GAME 2 -->
+        <div class="game-card" data-category="racing" data-name="Street Racer">
+
+            <div class="game-image">
+                <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=600&q=80">
+            </div>
+
+            <div class="game-info">
+
+                <h3>Street Racer</h3>
+
+                <p>Racing • 720 MB</p>
+
+                <div class="game-bottom">
+
+                    <span class="rating">★ 4.7</span>
+
+                    <button class="play-btn"
+                    onclick="openGame('Street Racer')">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GAME 3 -->
+        <div class="game-card" data-category="sports" data-name="Football Stars">
+
+            <div class="game-image">
+                <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=600&q=80">
+            </div>
+
+            <div class="game-info">
+
+                <h3>Football Stars</h3>
+
+                <p>Sports • 1.2 GB</p>
+
+                <div class="game-bottom">
+
+                    <span class="rating">★ 4.6</span>
+
+                    <button class="play-btn"
+                    onclick="openGame('Football Stars')">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GAME 4 -->
+        <div class="game-card" data-category="strategy" data-name="Kingdom Wars">
+
+            <div class="game-image">
+                <img src="https://images.unsplash.com/photo-1611996575749-79a3a250f948?auto=format&fit=crop&w=600&q=80">
+            </div>
+
+            <div class="game-info">
+
+                <h3>Kingdom Wars</h3>
+
+                <p>Strategy • 380 MB</p>
+
+                <div class="game-bottom">
+
+                    <span class="rating">★ 4.9</span>
+
+                    <button class="play-btn"
+                    onclick="openGame('Kingdom Wars')">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GAME 5 -->
+        <div class="game-card" data-category="arcade" data-name="Pixel Hero">
+
+            <div class="game-image">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80">
+            </div>
+
+            <div class="game-info">
+
+                <h3>Pixel Hero</h3>
+
+                <p>Arcade • 120 MB</p>
+
+                <div class="game-bottom">
+
+                    <span class="rating">★ 4.5</span>
+
+                    <button class="play-btn"
+                    onclick="openGame('Pixel Hero')">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GAME 6 -->
+        <div class="game-card" data-category="action" data-name="Shadow Ops">
+
+            <div class="game-image">
+                <img src="https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=600&q=80">
+            </div>
+
+            <div class="game-info">
+
+                <h3>Shadow Ops</h3>
+
+                <p>Action • 650 MB</p>
+
+                <div class="game-bottom">
+
+                    <span class="rating">★ 4.7</span>
+
+                    <button class="play-btn"
+                    onclick="openGame('Shadow Ops')">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="no-results" id="noResults">
+        🎮 No games found.
+    </div>
+
+</section>
+
+
+<!-- POPULAR -->
+<section class="section">
+
+    <div class="section-title">
+        <h2>🏆 Popular Games</h2>
+        <a>View All</a>
+    </div>
+
+    <div class="games">
+
+        <div class="game-card">
+
+            <div class="game-image">
+                <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=600&q=80">
+            </div>
+
+            <div class="game-info">
+
+                <h3>Battle Arena</h3>
+
+                <p>Action • 800 MB</p>
+
+                <div class="game-bottom">
+
+                    <span class="rating">★ 4.9</span>
+
+                    <button class="play-btn"
+                    onclick="openGame('Battle Arena')">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-image">
+                <img src="https://images.unsplash.com/photo-1603481546238-487240415921?auto=format&fit=crop&w=600&q=80">
+            </div>
+
+            <div class="game-info">
+
+                <h3>Speed Legends</h3>
+
+                <p>Racing • 950 MB</p>
+
+                <div class="game-bottom">
+
+                    <span class="rating">★ 4.8</span>
+
+                    <button class="play-btn"
+                    onclick="openGame('Speed Legends')">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-image">
+                <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=600&q=80">
+            </div>
+
+            <div class="game-info">
+
+                <h3>Space Mission</h3>
+
+                <p>Arcade • 540 MB</p>
+
+                <div class="game-bottom">
+
+                    <span class="rating">★ 4.7</span>
+
+                    <button class="play-btn"
+                    onclick="openGame('Space Mission')">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- GAME MODAL -->
+<div class="modal" id="gameModal">
+
+    <div class="modal-box">
+
+        <div class="close" onclick="closeGame()">×</div>
+
+        <div class="modal-image">
+            <img id="modalImage"
+            src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=80">
+        </div>
+
+        <div class="modal-content">
+
+            <h2 id="modalTitle">Cyber Strike</h2>
+
+            <p id="modalDescription">
+                Enter an exciting gaming world and
+                experience action-packed gameplay.
+                Download the game or play it when
+                the game becomes available.
+            </p>
+
+            <div class="modal-actions">
+
+                <button class="btn primary"
+                onclick="playGame()">
+                    ▶ PLAY NOW
+                </button>
+
+                <button class="btn secondary"
+                onclick="downloadGame()">
+                    ⬇ DOWNLOAD
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <p>
+        © 2026 <strong>GAMEHUB</strong>.
+        Play. Download. Discover.
+    </p>
+
+</footer>
+
+
+<script>
+
+/* GAME DATA */
+
+const games = {
+
+    "Cyber Strike":{
+        image:"https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=80"
+    },
+
+    "Street Racer":{
+        image:"https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1000&q=80"
+    },
+
+    "Football Stars":{
+        image:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1000&q=80"
+    },
+
+    "Kingdom Wars":{
+        image:"https://images.unsplash.com/photo-1611996575749-79a3a250f948?auto=format&fit=crop&w=1000&q=80"
+    },
+
+    "Pixel Hero":{
+        image:"https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000&q=80"
+    },
+
+    "Shadow Ops":{
+        image:"https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=1000&q=80"
+    },
+
+    "Battle Arena":{
+        image:"https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=1000&q=80"
+    },
+
+    "Speed Legends":{
+        image:"https://images.unsplash.com/photo-1603481546238-487240415921?auto=format&fit=crop&w=1000&q=80"
+    },
+
+    "Space Mission":{
+        image:"https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1000&q=80"
+    }
+
+};
+
+
+/* OPEN GAME */
+
+let currentGame = "";
+
+function openGame(name){
+
+    currentGame = name;
+
+    document.getElementById("modalTitle").innerText = name;
+
+    if(games[name]){
+        document.getElementById("modalImage").src =
+        games[name].image;
+    }
+
+    document.getElementById("gameModal").style.display="flex";
+}
+
+
+/* CLOSE */
+
+function closeGame(){
+
+    document.getElementById("gameModal").style.display="none";
+
+}
+
+
+/* PLAY */
+
+function playGame(){
+
+    alert(
+        "🎮 PLAY SYSTEM READY!\n\n" +
+        currentGame +
+        "\n\nThe real HTML5 game player will be connected in Stage 3."
+    );
+
+}
+
+
+/* DOWNLOAD */
+
+function downloadGame(){
+
+    alert(
+        "⬇ DOWNLOAD SYSTEM READY!\n\n" +
+        currentGame +
+        "\n\nThe real game download system will be connected after PHP/MySQL."
+    );
+
+}
+
+
+/* SEARCH */
+
+function searchGames(){
+
+    let input =
+    document.getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+    let cards =
+    document.querySelectorAll(".game-card");
+
+    let found = 0;
+
+    cards.forEach(card => {
+
+        let name =
+        card.dataset.name;
+
+        if(!name){
+
+            card.style.display =
+            input ? "none" : "block";
+
+            return;
+        }
+
+        if(name.toLowerCase().includes(input)){
+
+            card.style.display="block";
+            found++;
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+    document.getElementById("noResults").style.display =
+    found === 0 && input ? "block" : "none";
+}
+
+
+/* CATEGORY FILTER */
+
+function filterCategory(category, element){
+
+    document.querySelectorAll(".category")
+    .forEach(c => c.classList.remove("selected"));
+
+    element.classList.add("selected");
+
+    document.getElementById("searchInput").value="";
+
+    let cards =
+    document.querySelectorAll(".game-card");
+
+    cards.forEach(card => {
+
+        let cardCategory =
+        card.dataset.category;
+
+        if(category==="all" || cardCategory===category){
+
+            card.style.display="block";
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+}
+
+
+/* SCROLL */
+
+function scrollToGames(){
+
+    document.getElementById("gameGrid")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* HOME */
+
+function goHome(){
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* CLOSE MODAL WHEN CLICKING OUTSIDE */
+
+window.onclick=function(event){
+
+    let modal =
+    document.getElementById("gameModal");
+
+    if(event.target===modal){
+
+        closeGame();
+
+    }
+
+};
+
+</script>
+
+</body>
+</html>
+
